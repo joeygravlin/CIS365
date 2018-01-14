@@ -31,16 +31,15 @@ while True:
 
         #ATTACKER
         if shipid in attacker_fleet or (len(closest_empty_planets) == 0 and shipid in colonizer_fleet):
-            if (len(closest_enemy_ships) > 0 and len(closest_enemy_ships) * 2 < len(team_ships)) or len(closest_empty_planets) == 0:
-                target_ship = closest_enemy_ships[0]
-                navigate_command = ship.navigate(
-                                ship.closest_point_to(target_ship),
-                                game_map,
-                                speed=int(hlt.constants.MAX_SPEED),
-                                ignore_ships=False)
+            target_ship = closest_enemy_ships[0]
+            navigate_command = ship.navigate(
+                            ship.closest_point_to(target_ship),
+                            game_map,
+                            speed=int(hlt.constants.MAX_SPEED),
+                            ignore_ships=False)
 
-                if navigate_command:
-                    command_queue.append(navigate_command)
+            if navigate_command:
+                command_queue.append(navigate_command)
 
         #COLONIZER
         elif shipid in colonizer_fleet:
@@ -72,19 +71,14 @@ while True:
 
         #ship not in fleet
         else:
-            if len(team_ships) < 2 * len(closest_enemy_ships) and len(closest_empty_planets) > 0:
-                attacker_fleet = []
-                kamakazi_fleet = []
-                colonizer_fleet.append(shipid)
+            if len(closest_empty_planets) == 0:
+                x = randint(1,10)
+                if x > 5:
+                    attacker_fleet.append(shipid)
+                if x <= 5:
+                    kamakazi_fleet.append(shipid)
             else:
-                if len(colonizer_fleet) <= 2 * len(attacker_fleet) and len(colonizer_fleet) <= 2 * len(kamakazi_fleet):
-                    colonizer_fleet.append(shipid)
-                else:
-                    x = randint(1,10)
-                    if x > 5:
-                        attacker_fleet.append(shipid)
-                    if x <= 5:
-                        kamakazi_fleet.append(shipid)
+                colonizer_fleet.append(shipid)
 
     game.send_command_queue(command_queue)
     # TURN END
