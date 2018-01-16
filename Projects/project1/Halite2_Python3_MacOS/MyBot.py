@@ -39,7 +39,7 @@ while True:
         closest_enemy_ships = [entities_by_distance[distance][0] for distance in entities_by_distance if (isinstance(entities_by_distance[distance][0], hlt.entity.Ship) and entities_by_distance[distance][0] not in team_ships) and (entities_by_distance[distance][0].DockingStatus == 1 or entities_by_distance[distance][0].DockingStatus == 2 or entities_by_distance[distance][0].DockingStatus == 3)]
 
         #DEFAULT, UNCLAIMED TERRITORY
-        if shipid in colonizer_fleet and len(closest_empty_planets) > 0:
+        if len(closest_empty_planets) > 0:
             target_planet = closest_empty_planets[0]
             if ship.can_dock(target_planet):
                 command_queue.append(ship.dock(target_planet))
@@ -58,7 +58,7 @@ while True:
             closest_dockable_planets = [entities_by_distance[distance][0] for distance in entities_by_distance if isinstance(entities_by_distance[distance][0], hlt.entity.Planet) and entities_by_distance[distance][0].owner.id == game_map.my_id and entities_by_distance[distance][0].is_full() == False]
 
             #COLONIZER
-            if shipid in colonizer_fleet or len(closest_enemy) == 0:
+            if shipid in colonizer_fleet:
                 if len(closest_dockable_planets) > 0:
                     target_planet = closest_dockable_planets[0]
 
@@ -69,10 +69,9 @@ while True:
                     attacker_fleet.append(shipid)
 
             #ATTACKER
-            elif shipid in attacker_fleet or len(team_ships) > 120:
+            else:
                 if len(closest_enemy) > 0:
                     target = closest_enemy[0]
-
                     if isinstance(target, hlt.entity.Planet):
                         target = target.all_docked_ships()[0]
 
