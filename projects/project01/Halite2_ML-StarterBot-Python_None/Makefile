@@ -4,7 +4,7 @@
 FILE=replays-20170930-sample.zip
 
 # Halite binary address - please change here if you're not using MacOS
-HALITE_BINARY_ADDRESS=https://halite.io/assets/downloads/Halite2_MacOS.zip
+HALITE_BINARY_ADDRESS=https://halite.io/assets/downloads/Halite2_Linux-x64.zip
 
 # There is nothing special about this seed (other that it's the 1 milionth prime) .
 SEED=15485863
@@ -41,10 +41,10 @@ data: data/${FILE}
 
 data/${FILE}:
 	mkdir -p data
-	curl https://storage.googleapis.com/ml-bot-data/${FILE} -o data/${FILE}
+	curl -C - https://storage.googleapis.com/ml-bot-data/${FILE} -o data/${FILE}
 
 bin/halite:
-	curl $(HALITE_BINARY_ADDRESS) -o halite_binary.zip
+	curl -C - $(HALITE_BINARY_ADDRESS) -o halite_binary.zip
 	unzip halite_binary.zip -d bin
 	rm -rf halite_binary.zip
 
