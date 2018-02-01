@@ -1,7 +1,12 @@
 .PHONY: model_short_training model_long_training clean_model clean_data default data
 
+# First-Place bot for Halite2 - let's train our bot to act like them!
+USER_NAME=reCurs3
+USER_ID=1896
+MAX_NUM_REPLAY_FILES=2018
+DEST_DIR=${USER_NAME}-${USER_ID}-replays
 # Name of the data file
-FILE=replays-20170930-sample.zip
+FILE=${DEST_DIR}.zip
 
 # Halite binary address - please change here if you're not using MacOS
 HALITE_BINARY_ADDRESS=https://halite.io/assets/downloads/Halite2_Linux-x64.zip
@@ -15,13 +20,21 @@ SOURCES_FOR_TRAINING= tsmlstarterbot/common.py \
 
 default: model_long_training
 
+model_long_training_self: models/model_long_training_self.ckpt.meta
+
 model_long_training: models/model_long_training.ckpt.meta
 
 model_short_training: models/model_short_training.ckpt.meta
 
+models/model_long_training_self.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
+	mkdir -p models/
+	# Needs more work, probably want to serially export the replay data...
+	python3 -m tsmlstarterbot.train --model_name model_long_training_self --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED} 
+
 models/model_long_training.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
-	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit 1000 --steps 5000 --seed ${SEED}
+	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit 1000 --steps 5000 --seed ${SEED} --bot_to_imitate ${USER_NAME}
+	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED} --bot_to_imitate ${USER_NAME}
 
 models/model_short_training.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
@@ -39,9 +52,44 @@ real_clean: clean_model clean_data
 
 data: data/${FILE}
 
+REPLAY_FILES := $(wildcard data/${DEST_DIR}/*)
+NUM_REPLAY_FILES := $(words ${REPLAY_FILES})
+
 data/${FILE}:
-	mkdir -p data
-	curl -C - https://storage.googleapis.com/ml-bot-data/${FILE} -o data/${FILE}
+	mkdir -p data/${DEST_DIR}
+ifeq (${NUM_REPLAY_FILES},${MAX_NUM_REPLAY_FILES})
+	@echo NUM_REPLAY_FILES: ${NUM_REPLAY_FILES}
+else
+	@echo MAX_NUM_REPLAY_FILES: ${MAX_NUM_REPLAY_FILES}
+	@echo NUM_REPLAY_FILES: ${NUM_REPLAY_FILES}
+	hlt replay user -i ${USER_ID} -l ${MAX_NUM_REPLAY_FILES} -d data/${DEST_DIR}
+	# https://halite.io/learn-programming-challenge/halite-cli-and-tools/halite-client-tools
+	zip -rj  data/${FILE}  data/${DEST_DIR}/*
+endif
+
+
+CLASS_BOTS_DIR :=../halite_bots
+CLASS_BOTS := $(wildcard ${CLASS_BOTS_DIR}/*)
+#NUM_CLASS_BOTS := $(words ${CLASS_BOTS})
+
+GYM_PLAYER_1 :="python3 MyBot.py"
+#GYM_PLAYER_2 ="python3 ${CLASS_BOTS_DIR}/${CLASS_BOTS}"
+
+GYM_ITERATIONS =50
+GYM_HEIGHT =240
+GYM_WIDTH =160
+
+# This is a dirty use of BASH scripting in a Makefile... Should just make a permutation script in python...
+gym_class: bin/halite
+	for GYM_PLAYER_2 in ${CLASS_BOTS_DIR}/* ; do \
+	  hlt gym \
+	  -r ${GYM_PLAYER_1} \
+	  -r "python3 $${GYM_PLAYER_2}" \
+	  -b "bin/halite" \
+	  -i ${GYM_ITERATIONS} \
+	  -H ${GYM_HEIGHT} \
+	  -W ${GYM_WIDTH} ; \
+	done ; 
 
 bin/halite:
 	curl -C - $(HALITE_BINARY_ADDRESS) -o halite_binary.zip
