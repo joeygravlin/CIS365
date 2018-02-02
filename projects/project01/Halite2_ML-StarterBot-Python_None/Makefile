@@ -29,12 +29,12 @@ model_short_training: models/model_short_training.ckpt.meta
 models/model_long_training_self.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
 	# Needs more work, probably want to serially export the replay data...
-	python3 -m tsmlstarterbot.train --model_name model_long_training_self --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED} 
+	python3 -m tsmlstarterbot.train --model_name model_long_training_self --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 
 
 models/model_long_training.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
-	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit 1000 --steps 5000 --seed ${SEED} --bot_to_imitate ${USER_NAME}
-	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED} --bot_to_imitate ${USER_NAME}
+	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED}
+	# python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED} --bot_to_imitate ${USER_NAME}
 
 models/model_short_training.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
