@@ -46,6 +46,9 @@ clean_model:
 clean_data:
 	rm -rf data
 
+clean_tarball:
+	rm -rf ${SUBMISSION_TARBALL_DIR}
+
 real_clean: clean_model clean_data
 	rm -f submission.zip
 	rm -f bin/halite
@@ -124,4 +127,17 @@ compare: bin/compare.sh MyBotShortTraining.py MyBot.py model_short_training mode
 
 submission: 
 	zip -r submission.zip MyBot.py LANGUAGE hlt/ tsmlstarterbot/ models/
+
+TEAMNAME:=DELorousTRON3030
+SUBMISSION_TARBALL_DIR:=cis365_project01_-_${TEAMNAME}
+submission_tarball:
+	mkdir -p ${SUBMISSION_TARBALL_DIR}
+	rsync -ChavP  Makefile README* WRITEUP* MyBot.py LANGUAGE hlt tsmlstarterbot models ${SUBMISSION_TARBALL_DIR}
+	mv ${SUBMISSION_TARBALL_DIR}/MyBot.py ${SUBMISSION_TARBALL_DIR}/${TEAMNAME}_final_bot.py
+	chmod -R +X ${SUBMISSION_TARBALL_DIR}
+	chmod -R ugo+r ${SUBMISSION_TARBALL_DIR}
+	#find ${SUBMISSION_TARBALL_DIR}/. -type d -name \* -exec chmod 775 {} \;
+	tar -cvzf ${SUBMISSION_TARBALL_DIR}.tar.gz ${SUBMISSION_TARBALL_DIR}
+	chmod -R ugo+r ${SUBMISSION_TARBALL_DIR}.tar.gz
+
 
