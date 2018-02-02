@@ -34,7 +34,7 @@ models/model_long_training_self.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 models/model_long_training.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
 	python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED}
-	# python3 -m tsmlstarterbot.train --model_name model_long_training --data data/${FILE} --games_limit ${MAX_NUM_REPLAY_FILES} --steps 5000 --seed ${SEED} --bot_to_imitate ${USER_NAME}
+	# --bot_to_imitate ${USER_NAME}
 
 models/model_short_training.ckpt.meta: data/${FILE} ${SOURCES_FOR_TRAINING}
 	mkdir -p models/
@@ -83,6 +83,7 @@ GYM_HEIGHT =240
 GYM_WIDTH =160
 
 # This is a dirty use of BASH scripting in a Makefile... Should just make a permutation script in python...
+# Especially if we were to run matches with more than 2 players... TODO.
 gym_class: bin/halite
 	for GYM_PLAYER_2 in ${CLASS_BOTS_DIR}/* ; do \
 	  hlt gym \
@@ -94,8 +95,8 @@ gym_class: bin/halite
 	  -W ${GYM_WIDTH} ; \
 	done ; 
 
+# Visualize the replays @ https://halite.io/play-programming-challenge#/replay-bot
 GYM_REPLAY_DIR :=../halite_bots_replays
-# This is a dirty use of BASH scripting in a Makefile... Should just make a permutation script in python...
 gym_class_replays: bin/halite
 	mkdir -p ${GYM_REPLAY_DIR}
 	for GYM_PLAYER_2 in ${CLASS_BOTS_DIR}/* ; do \
@@ -136,7 +137,6 @@ submission_tarball:
 	mv ${SUBMISSION_TARBALL_DIR}/MyBot.py ${SUBMISSION_TARBALL_DIR}/${TEAMNAME}_final_bot.py
 	chmod -R +X ${SUBMISSION_TARBALL_DIR}
 	chmod -R ugo+r ${SUBMISSION_TARBALL_DIR}
-	#find ${SUBMISSION_TARBALL_DIR}/. -type d -name \* -exec chmod 775 {} \;
 	tar -cvzf ${SUBMISSION_TARBALL_DIR}.tar.gz ${SUBMISSION_TARBALL_DIR}
 	chmod -R ugo+r ${SUBMISSION_TARBALL_DIR}.tar.gz
 
