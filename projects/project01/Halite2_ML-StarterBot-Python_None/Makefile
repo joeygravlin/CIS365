@@ -91,6 +91,29 @@ gym_class: bin/halite
 	  -W ${GYM_WIDTH} ; \
 	done ; 
 
+GYM_REPLAY_DIR :=../halite_bots_replays
+# This is a dirty use of BASH scripting in a Makefile... Should just make a permutation script in python...
+gym_class_replays: bin/halite
+	mkdir -p ${GYM_REPLAY_DIR}
+	for GYM_PLAYER_2 in ${CLASS_BOTS_DIR}/* ; do \
+	  bin/halite \
+	  -d "${GYM_HEIGHT} ${GYM_WIDTH}" \
+	  --seed ${SEED} \
+	  --replaydirectory ${GYM_REPLAY_DIR} \
+	  ${GYM_PLAYER_1} \
+	  "python3 $${GYM_PLAYER_2}" ; \
+	done ; 
+
+GYM_SELF_REPLAY_DIR :=self_replays
+gym_self_replays: bin/halite
+	mkdir -p ${GYM_SELF_REPLAY_DIR}
+	bin/halite \
+	-d "${GYM_HEIGHT} ${GYM_WIDTH}" \
+	--seed ${SEED} \
+	--replaydirectory ${GYM_SELF_REPLAY_DIR} \
+	${GYM_PLAYER_1} \
+	${GYM_PLAYER_1} ;
+
 bin/halite:
 	curl -C - $(HALITE_BINARY_ADDRESS) -o halite_binary.zip
 	unzip halite_binary.zip -d bin
