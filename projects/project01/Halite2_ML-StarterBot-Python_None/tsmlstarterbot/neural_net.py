@@ -46,6 +46,12 @@ class NeuralNet(object):
             # the weights and biases between them in the network.
             flattened_frames = tf.reshape(self._features, [-1, PER_PLANET_FEATURES])
 
+            # 
+            # TODO
+            #
+            # Neural Network Layers: Play around with this bro.
+            # 
+            # 
             first_layer = tf.contrib.layers.fully_connected(flattened_frames, self.FIRST_LAYER_SIZE)
             second_layer = tf.contrib.layers.fully_connected(first_layer, self.SECOND_LAYER_SIZE)
 

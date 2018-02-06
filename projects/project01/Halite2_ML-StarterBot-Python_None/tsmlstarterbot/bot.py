@@ -50,7 +50,7 @@ class Bot:
     def produce_features(self, game_map):
         """
         For each planet produce a set of features that we will feed to the neural net. We always return an array
-        with PLANET_MAX_NUM rows - if planet is not present in the game, we set all featurse to 0.
+        with PLANET_MAX_NUM rows - if planet is not present in the game, we set all features to 0.
 
         :param game_map: game map
         :return: 2-D array where i-th row represents set of features of the i-th planet
