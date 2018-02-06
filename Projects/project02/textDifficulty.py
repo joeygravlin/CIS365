@@ -5,9 +5,11 @@ from textstat.textstat import textstat
 
 if __name__ == '__main__':
 
-	userInput = raw_input("Enter file name: ")
-	inputString = open(userInput).read()
+	user_input = input("Enter file name: ")
+	input_string = open(userInput).read()
 
-	print "Number of words: ", textstat.lexicon_count(inputString)		
-	print "Flesch-Kincaid score: ", textstat.flesch_reading_ease(inputString)
-	
+	num_words = textstat.lexicon_count(inputString)
+	fk_score = textstat.flesch_reading_ease(inputString)
+
+	print ("Number of words: ", num_words)
+	print ("Flesch-Kincaid score: ", fk_score)
