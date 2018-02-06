@@ -3,7 +3,11 @@
 #
 from textstat.textstat import textstat
 
-userInput = raw_input("Enter Filename: ")
+if __name__ == '__main__':
 
-with open(userInput) as IF:
-	print textstat.flesch_reading_ease(IF.read())
+	userInput = raw_input("Enter file name: ")
+	inputString = open(userInput).read()
+
+	print "Number of words: ", textstat.lexicon_count(inputString)		
+	print "Flesch-Kincaid score: ", textstat.flesch_reading_ease(inputString)
+	
