@@ -1,0 +1,69 @@
+Project #2: Inferring Text Difficulty and Dynamic Augmentation
+In this project you will examine a method to calculate the difficulty of text passages and then create a program to dynamically augment the difficulty of passages.
+
+Data Sources:
+Historical literature can be found at Project Gutenberg(http://www.gutenberg.org/).
+
+Popular news websites contain a variety of articles to try out.
+Short text passages can be found in a variety of other data sources.
+There are plenty of other sources, explore!
+
+Task #1: Implement the Flesch-Kincaid Reading Ease Formula:
+You will first create a program that calculates the readability of a text based on the Flesch-Kincaid reading ease formula, see here for information.
+
+Flesch, Rudolf. 'How to Write Plain English'. University of Canterbury.
+
+Given the above formula, you will have to figure out how to calculate the number of words, number of sentences, and number of syllables in a given document. The following table could also be codified to automatically state what level a given text is at.
+
+Flesch, Rudolf. 'How to Write Plain English'. University of Canterbury.
+
+Hint: If your program is running slowly, consider reducing the size of the texts that you are using. Excerpts from longer texts would be fine.
+
+When building your program, you will face a variety of challenges, but in general you should probably roughly follow these steps:
+
+Read in a text file.
+Parse the text file into token suitable for calculating the formula.
+Calculate the score for the given text.
+After you have completed the program, apply it to a series of texts. Some should be from famous historical literature, others from more modern sources. The sources are up to you, but I would expect at least three types of documents: books, online news stories, long-form blogs, tweets, RSS-feeds, etc.
+
+Task #2: Creating the Writeup:
+Once your program is running, create a report that addresses the following questions clearly:
+
+How does the readability of literature in a specific category (long-form books, news articles, etc) change over the course of time? Speculate on why this occurs?
+What differences do you notice in readability between modern sources of information? (e.g. news articles, versus long format stories, versus Twitter, etc) Are there differences in the same class of article (e.g. two news sources)? If so, why might this occur? Be careful if trying to draw conclusions from one example.
+Optional Did you find any curious patterns that arose in certain classes of texts? Speculate on why this might occur.
+Optional Are there sources that do not make sense to apply?
+
+Task #3: Create a Program to Augment Text Difficulty:
+Building on your previous program from Task #1, read in a piece of text and alter it in order to lower or raise the difficulty to a level different from the input. This is a stretch goal for the project and should only be attempted once Tasks 1 and 2 are complete. It is up to you to implement a strategy to augment the text, but be ready to explain your reasoning.
+
+Task #4: Add to the Writeup:
+What strategy did you use to raise or lower the difficulty of an input text.
+Describe a situation/application where you could use your approach, or a similar one, to automatically improve the accessibility of text.
+What difficulties did you run into, if any, while working on this assignment?
+Are there any notable successes, or failures, with your tool?
+
+Learning Objectives:
+Develop familiarity with an automated scoring metric that is at the foundation of natural language processing.
+Begin to explore techniques that use computers to automatically process information.
+Communicate technical concepts/issues in writing.
+
+Deliverables:
+A writeup that clearly addresses the questions.
+Source code for task #1 and #3.
+
+Rubric:
+I will be looking for the following in your code:
+
+Readability
+Conciseness
+Comments
+
+I will grade your writeup based on the following:
+How well were the questions addressed.
+Clarity of writing.
+Professionalism of the document (e.g. proper formatting, lack of typos)
+Graphs are appreciated and encouraged to help explain patterns that you found.
+
+Submission and Grading
+Submit a single printed writeup and a copy of source code from your group.
