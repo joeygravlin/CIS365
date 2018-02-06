@@ -1,3 +1,3 @@
-<h1> CIS365 <h2> with Prof. Jared Moore </h2> </h1> 
+<h2> <b>CIS365</b> | <i>Prof. Jared Moore</i> </h2>
 <p> A collection of projects authored by: Alex Duncanson (@alDuncanson), Derrik Fleming (@derrikfleming), Gary Fleming (@
 kungpaochikon), and Joseph Gravlin (@joeygravlin). </p>
