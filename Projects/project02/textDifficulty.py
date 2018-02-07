@@ -2,6 +2,8 @@
 # Alex Duncanson, Derrik Fleming, Gary Fleming, Joseph Gravlin
 #
 from textstat.textstat import textstat
+from nltk.corpus import wordnet
+from nltk.tokenize import sent_tokenize, word_tokenize
 
 if __name__ == '__main__':
 
@@ -17,3 +19,10 @@ if __name__ == '__main__':
 	print ("Number of words: ", num_words)
 	print ("Number of sentences: ", num_sentences)
 	print ("Flesch-Kincaid score: ", fk_score)
+
+	for word in word_tokenize(input_string):
+		word = word.strip(".")
+		syns = wordnet.synsets(word)
+
+		if syns[0].lemmas()[0].name():
+			print (word, "or", syns[0].lemmas()[0].name())
