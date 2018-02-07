@@ -9,6 +9,7 @@ if __name__ == '__main__':
 
 	user_input = input("Enter file name: ")
 	input_string = open(user_input).read()
+	new_string = ""
 
 	num_syllables = textstat.syllable_count(input_string)
 	num_words = textstat.lexicon_count(input_string)
@@ -21,8 +22,16 @@ if __name__ == '__main__':
 	print ("Flesch-Kincaid score: ", fk_score)
 
 	for word in word_tokenize(input_string):
-		word = word.strip(".")
-		syns = wordnet.synsets(word)
+		synonym_set = wordnet.synsets(word.strip("."))
+		first_synonym = synonym_set[0].lemmas()[0].name()
 
-		if syns[0].lemmas()[0].name():
-			print (word, "or", syns[0].lemmas()[0].name())
+		if first_synonym:
+			print (word, "or", first_synonym)
+			if textstat.syllable_count(first_synonym) < textstat.syllable_count(word):
+				#input_string.replace(word, first_synonym, inf)
+				new_string += " " + first_synonym
+			else:
+				new_string += " " +  word
+
+	print("\n\nOriginal text: ", input_string)
+	print("\n\nNew text: ", new_string)
