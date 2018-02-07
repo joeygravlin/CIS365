@@ -24,15 +24,17 @@ if __name__ == '__main__':
 
 	for word in word_tokenize(input_string):
 		synonym_set = wordnet.synsets(word.strip("."))
-		first_synonym = synonym_set[0].lemmas()[0].name()
 
-		if first_synonym:
-			if first_synonym.lower() != word.lower():
-				print ("\t", word, ":", first_synonym)
-			if textstat.syllable_count(first_synonym) < textstat.syllable_count(word):
-				new_string += " " + first_synonym
-			else:
-				new_string += " " +  word
+		if synonym_set:
+			first_synonym = synonym_set[0].lemmas()[0].name()
+
+			if first_synonym:
+				if first_synonym.lower() != word.lower():
+					print ("\t", word, ":", first_synonym)
+					if textstat.syllable_count(first_synonym) < textstat.syllable_count(word):
+						new_string += " " + first_synonym
+				else:
+					new_string += " " +  word
 
 	print ("\n\nOriginal text: ", input_string)
 	print ("Flesch-Kincaid score: ", fk_score)
