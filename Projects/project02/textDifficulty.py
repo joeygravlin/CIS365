@@ -28,6 +28,32 @@ def get_new_string(input_string, copy_string):
 	FINAL_STRING = " ".join(copy_string)
 	return FINAL_STRING
 
+def check_reading_level(input_string):
+	level = ["college graduate","college","12th grade","11th grade","10th grade","9th grade","8th grade","7th grade","6th grade","5th grade"]
+	grade = []
+	if textstat.flesch_kincaid_grade(input_string) <= 5:
+		grade.append(level[9])
+	elif textstat.flesch_kincaid_grade(input_string) <= 6:
+		grade.append(level[8])
+	elif textstat.flesch_kincaid_grade(input_string) <= 7:
+		grade.append(level[7])
+	elif textstat.flesch_kincaid_grade(input_string) <= 8:
+		grade.append(level[6])
+	elif textstat.flesch_kincaid_grade(input_string) <= 9:
+		grade.append(level[5])
+	elif textstat.flesch_kincaid_grade(input_string) <= 10:
+		grade.append(level[4])
+	elif textstat.flesch_kincaid_grade(input_string) <= 11:
+		grade.append(level[3])
+	elif textstat.flesch_kincaid_grade(input_string) <= 12:
+		grade.append(level[2])
+	elif textstat.flesch_kincaid_grade(input_string) <= 13:
+		grade.append(level[1])
+	else:
+		grade.append(level[0])
+
+	grade_string = " ".join(grade)
+	return grade_string
 
 if __name__ == '__main__':
 
@@ -52,10 +78,14 @@ if __name__ == '__main__':
 	print ("Number of sentences: ", num_sentences)
 
 	output = get_new_string(input_string, copy_string)
+	initial_grade = check_reading_level(input_string)
+	new_grade = check_reading_level(output)
 
 	# print the original text and the new text with their FK scores
 	print ("\n\nOriginal text: ", input_string)
 	print ("Flesch-Kincaid score: ", fk_score)
+	print(initial_grade, "reading level")
 	print ("\n\nNew text: ", output)
 	print ("\nNew Flesch-Kincaid score: ", textstat.flesch_reading_ease(output))
+	print(new_grade, "reading level")
 	print ("\n")
