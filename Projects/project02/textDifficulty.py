@@ -23,17 +23,18 @@ def remove_adjective(input_string, copy_string):
 
 def find_lowest_syl_count(syn_list):
 	#12 is largest number of syllables in one english word
-	lowest_count = 0
+	lowest_count = 12
 	lowest_count_word = ""
-	syn = []
-	for word in syn_list:
-		count = textstat.syllable_count(word.lemma())
+
+	for synset in syn_list:
+		word = synset.name().split('.')[0]
+		count = textstat.syllable_count(word)
+
 		if count < lowest_count:
 			lowest_count = count
 			lowest_count_word = word
-	syn.append(lowest_count_word)
 
-	return syn
+	return lowest_count_word
 
 
 def get_new_string(input_string, copy_string):
@@ -41,22 +42,27 @@ def get_new_string(input_string, copy_string):
 	for word in word_tokenize(input_string):
 		# find a set of synonyms for each word
 		synonym_set = wordnet.synsets(word)
-		print(synonym_set)
 		# if there is a synonym for that word
 		if synonym_set:
+			#get the synonym with the lowest syllable count
 			synonym = find_lowest_syl_count(synonym_set)
+
 			# get just the first synonym
-			first_synonym = synonym_set[0].lemmas()[0].name()
+			#synonym = synonym_set[0].lemmas()[0].name()
+
 			# if the synonym has less syllabes than the word
-			if textstat.syllable_count(first_synonym) < textstat.syllable_count(word):
+			if textstat.syllable_count(synonym) < textstat.syllable_count(word):
 				words_with_synonyms.append(word)
-				the_synonyms.append(first_synonym)
+				#view synonym changes
+				#print(word, "-->", synonym, "\n")
+				the_synonyms.append(synonym)
 
 	# replace all the words with their corresponding synonyms
 	i = 0
 	while i < len(words_with_synonyms):
 		copy_string = [w.replace(words_with_synonyms[i], the_synonyms[i]) for w in copy_string]
 		i += 1
+
 	# join the list into one string
 	FINAL_STRING = " ".join(copy_string)
 	return FINAL_STRING
@@ -118,10 +124,10 @@ if __name__ == '__main__':
 	new_grade = check_reading_level(output)
 
 	# print the original text and the new text with their FK scores
-	print ("\n\nOriginal text: ", input_string)
+	#print ("\n\nOriginal text: ", input_string)
 	print ("Flesch-Kincaid score: ", fk_score)
 	print(initial_grade, "reading level")
-	print ("\n\nNew text: ", output)
+	#print ("\n\nNew text: ", output)
 	print ("\nNew Flesch-Kincaid score: ", textstat.flesch_reading_ease(output))
 	print(new_grade, "reading level")
 	print ("\n")
