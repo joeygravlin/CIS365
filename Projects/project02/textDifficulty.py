@@ -22,17 +22,29 @@ def remove_adjective(input_string, copy_string):
 	return FINAL_STRING
 
 def find_lowest_syl_count(syn_list):
+	#12 is largest number of syllables in one english word
+	lowest_count = 0
+	lowest_count_word = ""
+	syn = []
 	for word in syn_list:
-		
+		count = textstat.syllable_count(word.lemma())
+		if count < lowest_count:
+			lowest_count = count
+			lowest_count_word = word
+	syn.append(lowest_count_word)
 
 	return syn
+
+
 def get_new_string(input_string, copy_string):
 	# loop through each token (word, comma, period) in the input file
 	for word in word_tokenize(input_string):
 		# find a set of synonyms for each word
-		synonym_set = find_lowest_syl_count(wordnet.synsets(word))
+		synonym_set = wordnet.synsets(word)
+		print(synonym_set)
 		# if there is a synonym for that word
 		if synonym_set:
+			synonym = find_lowest_syl_count(synonym_set)
 			# get just the first synonym
 			first_synonym = synonym_set[0].lemmas()[0].name()
 			# if the synonym has less syllabes than the word
