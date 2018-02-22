@@ -4,12 +4,33 @@
 from textstat.textstat import textstat
 from nltk.corpus import wordnet
 from nltk.tokenize import sent_tokenize, word_tokenize
+import nltk
 
+def remove_adjective(input_string, copy_string):
+	word_list = word_tokenize(input_string)
+	dict = nltk.tag.pos_tag(word_list)
+	symbol_list = [",", ".", ";", "--", "&", "$", "#", "@", "!", ":", "*", "'"]
+	FINAL_STRING = ""
+	for word in dict:
+		if FINAL_STRING == "" or word[0] in symbol_list:
+			FINAL_STRING += word[0]
+		elif FINAL_STRING != "" and (word[1] != 'JJ' or word[1] != 'JJR' or word[1] != 'JJS'):
+			FINAL_STRING += " " + word[0]
+
+	print("FINAL:  \n" + FINAL_STRING)
+
+	return FINAL_STRING
+
+def find_lowest_syl_count(syn_list):
+	for word in syn_list:
+		
+
+	return syn
 def get_new_string(input_string, copy_string):
 	# loop through each token (word, comma, period) in the input file
 	for word in word_tokenize(input_string):
 		# find a set of synonyms for each word
-		synonym_set = wordnet.synsets(word)
+		synonym_set = find_lowest_syl_count(wordnet.synsets(word))
 		# if there is a synonym for that word
 		if synonym_set:
 			# get just the first synonym
@@ -78,6 +99,9 @@ if __name__ == '__main__':
 	print ("Number of sentences: ", num_sentences)
 
 	output = get_new_string(input_string, copy_string)
+	#for i in range(0,5):
+		#output = get_new_string(output, copy_string)
+	#output = remove_adjective(output, copy_string)
 	initial_grade = check_reading_level(input_string)
 	new_grade = check_reading_level(output)
 
