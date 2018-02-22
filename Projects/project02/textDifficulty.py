@@ -6,6 +6,7 @@ from nltk.corpus import wordnet
 from nltk.tokenize import sent_tokenize, word_tokenize
 import nltk
 
+#obsolete, not effective
 def remove_adjective(input_string, copy_string):
 	word_list = word_tokenize(input_string)
 	dict = nltk.tag.pos_tag(word_list)
