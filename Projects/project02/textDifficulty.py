@@ -98,8 +98,10 @@ def check_reading_level(input_string):
 if __name__ == '__main__':
 
 	# prompt user for file and open it
-	user_input = input ("Enter file name: ")
-	input_string = open (user_input).read()
+	user_input = input ("Enter file name to open: ")
+	input_string = open(user_input).read()
+	user_input = input ("Enter file name to write to: ")
+
 
 	# declare/initialize lists
 	copy_string = input_string.split()
@@ -123,6 +125,10 @@ if __name__ == '__main__':
 	#output = remove_adjective(output, copy_string)
 	initial_grade = check_reading_level(input_string)
 	new_grade = check_reading_level(output)
+
+	#write new text to file
+	with open(user_input, "w") as text_file:
+		print(output, file=text_file)
 
 	# print the original text and the new text with their FK scores
 	#print ("\n\nOriginal text: ", input_string)
