@@ -118,8 +118,8 @@ if __name__ == '__main__':
 	print ("Number of sentences: ", num_sentences)
 
 	output = get_new_string(input_string, copy_string)
-	#for i in range(0,5):
-		#output = get_new_string(output, copy_string)
+	for i in range(0,5):
+		output = get_new_string(output, copy_string)
 	#output = remove_adjective(output, copy_string)
 	initial_grade = check_reading_level(input_string)
 	new_grade = check_reading_level(output)
