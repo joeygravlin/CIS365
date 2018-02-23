@@ -38,7 +38,7 @@ def find_lowest_syl_count(syn_list):
 	return lowest_count_word
 
 
-def get_new_string(input_string, copy_string):
+def synonym_replacement(input_string, copy_string):
 	# loop through each token (word, comma, period) in the input file
 	for word in word_tokenize(input_string):
 		# find a set of synonyms for each word
@@ -119,7 +119,7 @@ if __name__ == '__main__':
 	print ("Number of words: ", num_words)
 	print ("Number of sentences: ", num_sentences)
 
-	output = get_new_string(input_string, copy_string)
+	output = synonym_replacement(input_string, copy_string)
 	#output = remove_adjective(output, copy_string)
 	initial_grade = check_reading_level(input_string)
 	new_grade = check_reading_level(output)
