@@ -112,7 +112,7 @@ if __name__ == '__main__':
 	num_syllables = textstat.syllable_count(input_string)
 	num_words = textstat.lexicon_count(input_string)
 	num_sentences = textstat.sentence_count(input_string)
-	fk_score = textstat.flesch_reading_ease(input_string)
+	fk_score = 206.835 - float(1.105 * (num_words / num_sentences)) - float(84.6 * (num_syllables / num_words))
 
 	# print number of syllables, words, and sentences in the file
 	print ("\nNumber of syllables: ", num_syllables)
@@ -120,11 +120,14 @@ if __name__ == '__main__':
 	print ("Number of sentences: ", num_sentences)
 
 	output = get_new_string(input_string, copy_string)
-	for i in range(0,5):
-		output = get_new_string(output, copy_string)
 	#output = remove_adjective(output, copy_string)
 	initial_grade = check_reading_level(input_string)
 	new_grade = check_reading_level(output)
+
+	new_num_syllables = textstat.syllable_count(output)
+	new_num_words = textstat.lexicon_count(output)
+	new_num_sentences = textstat.sentence_count(output)
+	new_fk_score = 206.835 - float(1.105 * (new_num_words / new_num_sentences)) - float(84.6 * (new_num_syllables / new_num_words))
 
 	#write new text to file
 	with open(user_input, "w") as text_file:
@@ -135,6 +138,6 @@ if __name__ == '__main__':
 	print ("Flesch-Kincaid score: ", fk_score)
 	print(initial_grade, "reading level")
 	#print ("\n\nNew text: ", output)
-	print ("\nNew Flesch-Kincaid score: ", textstat.flesch_reading_ease(output))
+	print ("\nNew Flesch-Kincaid score: ", new_fk_score)
 	print(new_grade, "reading level")
 	print ("\n")
