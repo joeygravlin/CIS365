@@ -5,6 +5,13 @@
 ###
 
 ### https://raw.github.com/github/gitignore/0c5ace9de99c220bb69012581d68ca6fa977449b/Global/Linux.gitignore
+/*
+!/Projects
+!/Homework
+!/Lab
+*.out
+*.bak
+*.o
 
 *~
 
@@ -300,7 +307,7 @@ ClientBin/
 *.publishsettings
 orleans.codegen.cs
 
-# Including strong name files can present a security risk 
+# Including strong name files can present a security risk
 # (https://github.com/github/gitignore/pull/2483#issue-259490424)
 #*.snk
 
@@ -396,7 +403,7 @@ __pycache__/
 # OpenCover UI analysis results
 OpenCover/
 
-# Azure Stream Analytics local run output 
+# Azure Stream Analytics local run output
 ASALocalRun/
 
 # MSBuild Binary and Structured Log
@@ -519,5 +526,3 @@ flycheck_*.el
 pyvenv.cfg
 .venv
 pip-selfcheck.json
-
-
