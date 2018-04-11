@@ -2,6 +2,7 @@ import neat
 import sys
 import random
 import pickle
+import pathlib
 from gvGame import Game
 import myGlobals
 
@@ -52,9 +53,8 @@ bestGenome = pop.run(eval_genomes, 80)
 
 print(bestGenome)
 
-# Save genome via pickle
-outputDir = 'bestGenomes'
-outputFile = open(outputDir+'\_'+str(int(MAX_FITNESS))+'.p', 'wb')
+outputDir = pathlib.Path('bestGenomes')
+outputFile = open(outputDir / str(int(MAX_FITNESS))+'.p', 'wb')
 pickle.dump(bestGenome, outputFile)
 outputFile.close()
 

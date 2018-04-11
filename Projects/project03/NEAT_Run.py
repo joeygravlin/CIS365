@@ -2,6 +2,7 @@ import neat
 import sys
 import random
 import pickle
+import pathlib
 from gvGame import Game
 
 
@@ -34,7 +35,9 @@ config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                      neat.DefaultSpeciesSet, neat.DefaultStagnation,
                      'config')
 
-genomeFile = 'bestGenomes/_955.p'
+genomeFolder = pathlib.Path('bestGenomes')
+# Get the genomeFile with the highest fitness score.
+genomeFile = sorted(genomeFolder.iterdir())[-1]
 genome = pickle.load(open(genomeFile, 'rb'))
 
 fitnessScores = []
