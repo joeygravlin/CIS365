@@ -9,6 +9,9 @@ from player import Player
 from obstacle import Obstacle
 import neat
 import pickle
+import myGlobals
+
+myGlobals.init()
 
 class Game():
     def game(self, genome, config, mode):
@@ -22,7 +25,9 @@ class Game():
         HEIGHT = 512
         running = True
         paused = False
-        BACKGROUND = pygame.image.load("bg.png")        
+        BACKGROUND = pygame.image.load("bg.png")
+        #Last Obstacle Jumped Over
+        lastObst = None
         
         
         #NEAT Stuff
@@ -33,7 +38,6 @@ class Game():
         pygame.init()
         CLOCK = pygame.time.Clock()
         PANEL = pygame.display.set_mode((WIDTH,HEIGHT))
-        score = 0
         time = 0
         
         #Player Character
@@ -60,7 +64,7 @@ class Game():
             obsGroup.add(obs)
             #Let's also use this time to set the initial midY
             if(myNum==0 or myNum==2):
-                myMid = random.randint(160,512-160)
+                myMid = self.getNewMid()
             obs.setMidY(myMid)
             myNum+=1
 
@@ -82,9 +86,11 @@ class Game():
                 input = (player.y,topObs.x,topObs.y,botObs.y)
                 #distanceToMid = abs(player.y - closestMid)
                 distanceToMid = (((player.y - closestMid)**2)*100)/(512*512)
-                #fitness = time + score - distanceToMid
-                fitness = score - distanceToMid + (time/10.0)
+                #fitness = time + SCORE - distanceToMid
+                fitness = myGlobals.SCORE - distanceToMid + (time/10.0)
+                #Get Output
                 output = ffnet.activate(input)
+                #Jump if output is above threshold
                 if(output[0]>=0.5):
                    player.jump()
 
@@ -102,14 +108,18 @@ class Game():
             if(not paused):
                 PANEL.blit(BACKGROUND,(0,0))
                 player.step()
-                myMid = random.randint(160,512-160)
+                myMid = self.getNewMid()
                 for obs in obsList:
                     obs.step()
                     #Reset Obs
                     if(obs.x < 0 - obs.w):
                         obs.x = obs.x + WIDTH * 1.5
                         obs.setMidY(myMid)
-                        score+=5
+                    #Up Score
+                    if(obs.top and obs.x<player.x and lastObst != obs):
+                        myGlobals.SCORE+=10
+                        lastObst = obs
+                        print('SCORE: ' + str(myGlobals.SCORE))
                 #Check Collision
                 collision = pygame.sprite.spritecollideany(player,obsGroup)
 
@@ -123,7 +133,10 @@ class Game():
                 
             
             pygame.display.update()
-            CLOCK.tick(FPS)    
+            CLOCK.tick(FPS)
+
+    def getNewMid(self):
+        return random.choice([160, 256, 340])
 
     def close(self):
         pygame.display.quit()
