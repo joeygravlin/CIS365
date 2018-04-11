@@ -1,7 +1,8 @@
 import pygame
 
+
 class Player(pygame.sprite.Sprite):
-    def __init__(self,panel):
+    def __init__(self, panel):
         pygame.sprite.Sprite.__init__(self)
         self.image = pygame.image.load("logo.png")
         self.x = 48
@@ -14,18 +15,18 @@ class Player(pygame.sprite.Sprite):
         self.yspMax = 10
         self.grav = 1
         #self.jumping = False
-        self.updateDisplay(self.x,self.y)
+        self.updateDisplay(self.x, self.y)
 
-    def updateDisplay(self,x,y):
-        self.screen.blit(self.image,(x,y))
-        self.rect.x, self.rect.y = x,y
+    def updateDisplay(self, x, y):
+        self.screen.blit(self.image, (x, y))
+        self.rect.x, self.rect.y = x, y
 
     def step(self):
-        if(self.ysp>self.yspMax):
+        if(self.ysp > self.yspMax):
             self.ysp = self.yspMax
         self.y += self.ysp
         self.ysp += self.grav
-        self.updateDisplay(self.x,self.y)
+        self.updateDisplay(self.x, self.y)
 
     def jump(self):
         self.ysp = -self.jumpHeight
