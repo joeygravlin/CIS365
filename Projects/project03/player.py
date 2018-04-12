@@ -10,9 +10,10 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.h = self.rect.height
         self.screen = panel
-        self.jumpHeight = 12
-        self.ysp = 0
+        self.jumpHeight = 9
+        self.ysp = -9
         self.yspMax = 10
+        self.yspMin = -8
         self.grav = 1
         #self.jumping = False
         self.updateDisplay(self.x, self.y)
@@ -24,6 +25,8 @@ class Player(pygame.sprite.Sprite):
     def step(self):
         if(self.ysp > self.yspMax):
             self.ysp = self.yspMax
+        if(self.ysp<self.yspMin):
+            self.ysp = self.yspMin
         self.y += self.ysp
         self.ysp += self.grav
         self.updateDisplay(self.x, self.y)

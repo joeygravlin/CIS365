@@ -29,6 +29,11 @@ class Game():
         BACKGROUND = pygame.image.load("bg.png")
         # Last Obstacle Jumped Over
         lastObst = None
+        #closest mid point
+        closestMid = 0
+        botObs = None
+        topObs = None
+        closestX = 0
 
         # NEAT Stuff
         if(self.mode == 1):
@@ -44,10 +49,10 @@ class Game():
         player = Player(PANEL)
 
         # Obstacles
-        obsU1 = Obstacle(PANEL, 512, 256, False)
-        obsL1 = Obstacle(PANEL, 512, 256, True)
-        obsU2 = Obstacle(PANEL, 512+200, 160, False)
-        obsL2 = Obstacle(PANEL, 512+200, 160, True)
+        obsU1 = Obstacle(PANEL, 300, 256, False)
+        obsL1 = Obstacle(PANEL, 300, 256, True)
+        obsU2 = Obstacle(PANEL, 300+200, 160, False)
+        obsL2 = Obstacle(PANEL, 300+200, 160, True)
 
         # Create List of Obstacles for easy handling
         obsList = []
@@ -77,12 +82,18 @@ class Game():
                 botObs = None
                 topObs = None
                 for obs in obsList:
-                    if(obs.top and obs.x < minTopX):
+                    if(obs.top and obs.x<minTopX and obs.x > player.x):
                         topObs = obs
-                    if(not obs.top and obs.x < minBotX):
+                        minTopX = topObs.x
+                    if(not obs.top and obs.x<minBotX and obs.x > player.x):
                         botObs = obs
+                        minBotX = botObs.x
                 closestMid = topObs.midY
+                closestX = topObs.x
                 input = (player.y, topObs.x, topObs.y, botObs.y)
+
+
+                #input = (player.y,topObs.x,closestMid)
                 #distanceToMid = abs(player.y - closestMid)
                 distanceToMid = (((player.y - closestMid)**2)*100)/(512*512)
                 #fitness = time + SCORE - distanceToMid
@@ -106,6 +117,13 @@ class Game():
                         self.close()
             if(not paused):
                 PANEL.blit(BACKGROUND, (0, 0))
+                myfont = pygame.font.SysFont('Arial', 12)
+                closestMidText = myfont.render("closestMid:"+str(closestMid),False,(0,0,0))
+                xMidText = myfont.render("closestX:"+str(closestX),False,(0,0,0))
+                obsU1Text = myfont.render("obsU1.x:"+str(obsU1.x),False,(0,0,0))
+                PANEL.blit(closestMidText,(20,20))
+                PANEL.blit(xMidText,(20,40))
+                PANEL.blit(obsU1Text,(20,60))
                 player.step()
                 myMid = self.getNewMid()
                 for obs in obsList:
