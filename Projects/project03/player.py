@@ -25,7 +25,7 @@ class Player(pygame.sprite.Sprite):
     def step(self):
         if(self.ysp > self.yspMax):
             self.ysp = self.yspMax
-        if(self.ysp<self.yspMin):
+        if(self.ysp < self.yspMin):
             self.ysp = self.yspMin
         self.y += self.ysp
         self.ysp += self.grav
