@@ -53,8 +53,9 @@ bestGenome = pop.run(eval_genomes, 80)
 
 print(bestGenome)
 
-outputDir = pathlib.Path('bestGenomes')
-outputFile = open(outputDir / str(int(MAX_FITNESS))+'.p', 'wb')
+outputDir = pathlib.PurePath('bestGenomes')
+outputFileName = outputDir.joinpath('_'+str(int(MAX_FITNESS))+'.p')
+outputFile = open(outputFileName, 'wb')
 pickle.dump(bestGenome, outputFile)
 outputFile.close()
 
