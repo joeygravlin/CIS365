@@ -95,8 +95,12 @@ class Game():
                 #input = (player.y,topObs.x,closestMid)
                 #distanceToMid = abs(player.y - closestMid)
                 distanceToMid = (((player.y - closestMid)**2)*100)/(512*512)
-                #fitness = time + SCORE - distanceToMid
+
+                ##
+                # fitness = time + SCORE - distanceToMid
+                ##
                 fitness = myGlobals.SCORE - distanceToMid + (time/10.0)
+
                 # Get Output
                 output = ffnet.activate(input)
                 # Jump if output is above threshold
@@ -114,6 +118,7 @@ class Game():
                     # Close Game With Escape Key
                     if(event.key == K_ESCAPE):
                         self.close()
+
             if(not paused):
                 PANEL.blit(BACKGROUND, (0, 0))
                 myfont = pygame.font.SysFont('Arial', 12)
@@ -128,6 +133,7 @@ class Game():
                 PANEL.blit(obsU1Text, (20, 60))
                 player.step()
                 myMid = self.getNewMid()
+
                 for obs in obsList:
                     obs.step()
                     # Reset Obs
@@ -139,6 +145,7 @@ class Game():
                         myGlobals.SCORE += 10
                         lastObst = obs
                         print('SCORE: ' + str(myGlobals.SCORE))
+
                 # Check Collision
                 collision = pygame.sprite.spritecollideany(player, obsGroup)
 
