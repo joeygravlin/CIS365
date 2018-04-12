@@ -28,9 +28,14 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         # Run game and return fitness
         genome.fitness = game.game(genome, config, 1)
+
         # Print Results in Console
-        print("Gen:" + str(GENERATION) + " Gnm:" + str(i) + " MyFit:" + str(round(genome.fitness)
-                                                                            ) + " TopFit:" + str(round(MAX_FITNESS)) + " TopSCR:"+str(highScore))
+        print("Gen:" + str(GENERATION)
+              + " Gnm:" + str(i)
+              + " MyFit:" + str(round(genome.fitness))
+              + " TopFit:" + str(round(MAX_FITNESS))
+              + " TopSCR:"+str(highScore))
+
         if genome.fitness >= MAX_FITNESS:
             MAX_FITNESS = genome.fitness
             BEST_GENOME = genome

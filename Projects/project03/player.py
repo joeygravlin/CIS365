@@ -15,7 +15,7 @@ class Player(pygame.sprite.Sprite):
         self.yspMax = 10
         self.yspMin = -8
         self.grav = 1
-        #self.jumping = False
+        # self.jumping = False
         self.updateDisplay(self.x, self.y)
 
     def updateDisplay(self, x, y):
@@ -33,4 +33,4 @@ class Player(pygame.sprite.Sprite):
 
     def jump(self):
         self.ysp = -self.jumpHeight
-        #self.jumping = True
+        # self.jumping = True

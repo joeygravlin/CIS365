@@ -81,6 +81,7 @@ class Game():
                 minTopX = 1000
                 botObs = None
                 topObs = None
+
                 for obs in obsList:
                     if(obs.top and obs.x < minTopX and obs.x > player.x):
                         topObs = obs
@@ -88,12 +89,13 @@ class Game():
                     if(not obs.top and obs.x < minBotX and obs.x > player.x):
                         botObs = obs
                         minBotX = botObs.x
+
                 closestMid = topObs.midY
                 closestX = topObs.x
                 input = (player.y, topObs.x, topObs.y, botObs.y)
 
-                #input = (player.y,topObs.x,closestMid)
-                #distanceToMid = abs(player.y - closestMid)
+                # input = (player.y,topObs.x,closestMid)
+                # distanceToMid = abs(player.y - closestMid)
                 distanceToMid = (((player.y - closestMid)**2)*100)/(512*512)
 
                 ##
@@ -150,7 +152,7 @@ class Game():
                 collision = pygame.sprite.spritecollideany(player, obsGroup)
 
                 # Game Over Conditions
-                if(collision != None or player.y <= 0 or player.y >= HEIGHT):
+                if(collision is not None or player.y <= 0 or player.y >= HEIGHT):
                     if(self.mode == 0):
                         print("GAME OVER")
                         self.close()
