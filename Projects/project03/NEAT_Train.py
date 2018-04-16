@@ -5,6 +5,7 @@ import pickle
 import pathlib
 from gvGame import Game
 import myGlobals
+from inverse_square_root_linear_unit import isrlu
 
 # Variables
 GENERATION = 0
@@ -27,6 +28,7 @@ def eval_genomes(genomes, config):
     for genome_id, genome in genomes:
         # Run game and return fitness
         genome.fitness = game.game(genome, config, 1)
+
         # Print Results in Console
 
         if MAX_FITNESS == None:
@@ -49,6 +51,11 @@ def eval_genomes(genomes, config):
 config = neat.Config(neat.DefaultGenome, neat.DefaultReproduction,
                      neat.DefaultSpeciesSet, neat.DefaultStagnation,
                      'config')
+
+# Custom activation function - Inverse Square Root Linear Unit (ISRLU)
+config.genome_config.add_activation(
+    'inverse_square_root_linear_unit', isrlu)
+
 # Create population
 pop = neat.Population(config)
 stats = neat.StatisticsReporter()

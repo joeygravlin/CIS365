@@ -6,7 +6,11 @@
 fitness_criterion     = max
 fitness_threshold     = 60000.0
 pop_size              = 100
-reset_on_extinction   = 0
+no_fitness_termination = False
+# * *reset_on_extinction*
+#    If this evaluates to ``True``, when all species simultaneously become extinct due to stagnation, a new random
+#    population will be created. If ``False``, a `CompleteExtinctionException` will be thrown.
+reset_on_extinction   = True
 
 [DefaultGenome]
 num_inputs              = 4
@@ -16,13 +20,18 @@ initial_connection      = partial_direct 0.5
 feed_forward            = True
 compatibility_disjoint_coefficient    = 1.0
 compatibility_weight_coefficient      = 0.6
-conn_add_prob           = 0.2
-conn_delete_prob        = 0.2
+conn_add_prob           = 0.4
+conn_delete_prob        = 0.4
 node_add_prob           = 0.2
 node_delete_prob        = 0.2
-activation_default      = sigmoid
+
+# https://neat-python.readthedocs.io/en/latest/activation.html
+activation_default      = inverse_square_root_linear_unit
 activation_options      = sigmoid
 activation_mutate_rate  = 0.0
+##
+# node -> activation(bias+(response∗aggregation(inputs)))  
+##
 aggregation_default     = sum
 aggregation_options     = sum
 aggregation_mutate_rate = 0.0
