@@ -127,7 +127,7 @@ class Game():
                 # pygame.display.flip()
 
                 #fitness = time + SCORE - distanceToMid
-                fitness = myGlobals.SCORE
+                fitness = 5 * myGlobals.SCORE - 3 * distanceToMid
 
                 # Get Output
                 output = ffnet.activate(input)
