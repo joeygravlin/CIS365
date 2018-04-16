@@ -5,15 +5,16 @@ import math
 # https://arxiv.org/pdf/1710.09967.pdf
 def isrlu(x):
     # , alpha=None):
-    alpha = None
-    ret = x
+    # alpha = None
     # if x >= 0:
     #     return x
     # else:
     if x < 0:
-        if alpha is None:
-            alpha = 1
-        ret = x/math.sqrt(1+alpha(x**2))
+        # if alpha is None:
+        alpha = 1
+        ret = x/math.sqrt(1+alpha*(x**2))
+    else:
+        ret = x
     return ret
 
 

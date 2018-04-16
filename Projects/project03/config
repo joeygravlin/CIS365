@@ -26,9 +26,9 @@ node_add_prob           = 0.2
 node_delete_prob        = 0.2
 
 # https://neat-python.readthedocs.io/en/latest/activation.html
-activation_default      = sigmoid
-# activation_options      = sigmoid
-activation_mutate_rate  = 0.03
+activation_default      = inverse_square_root_linear_unit
+activation_options      = sigmoid
+activation_mutate_rate  = 0.0
 ##
 # node -> activation(bias+(response∗aggregation(inputs)))  
 ##
