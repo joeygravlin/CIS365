@@ -8,7 +8,7 @@ import myGlobals
 
 # Variables
 GENERATION = 0
-MAX_FITNESS = 0
+MAX_FITNESS = None
 BEST_GENOME = 0
 myGlobals.SCORE = 0
 highScore = 0
@@ -28,8 +28,14 @@ def eval_genomes(genomes, config):
         # Run game and return fitness
         genome.fitness = game.game(genome, config, 1)
         # Print Results in Console
-        print("Gen:" + str(GENERATION) + " Gnm:" + str(i) + " MyFit:" + str(round(genome.fitness)
-                                                                            ) + " TopFit:" + str(round(MAX_FITNESS)) + " TopSCR:"+str(highScore))
+
+        if MAX_FITNESS == None:
+            MAX_FITNESS = genome.fitness
+
+        print("Gen:" + str(GENERATION) + " Gnm:" + str(i) + " MyFit:" + str(genome.fitness) + " TopFit:" + str(round(MAX_FITNESS)) + " TopSCR:"+str(highScore))
+
+
+
         if genome.fitness >= MAX_FITNESS:
             MAX_FITNESS = genome.fitness
             BEST_GENOME = genome

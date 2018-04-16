@@ -21,7 +21,7 @@ class Game():
 
         FPS = 60
         if(self.mode == 1):
-            FPS = 200
+            FPS = 800
         WIDTH = 288
         HEIGHT = 512
         running = True
@@ -34,6 +34,11 @@ class Game():
         botObs = None
         topObs = None
         closestX = 0
+
+        lastObst = None
+        lastYDiff=0
+        lastDist2Mid=0
+        bonus=0
 
         # NEAT Stuff
         if(self.mode == 1):
@@ -90,13 +95,40 @@ class Game():
                         minBotX = botObs.x
                 closestMid = topObs.midY
                 closestX = topObs.x
-                input = (player.y, topObs.x, topObs.y, botObs.y)
 
                 #input = (player.y,topObs.x,closestMid)
+                yDiff = abs(player.y - closestMid)
+                yDiffTop = abs(player.y - (topObs.y+320))
+                yDiffBot = abs(player.y - (botObs.y))
                 #distanceToMid = abs(player.y - closestMid)
-                distanceToMid = (((player.y - closestMid)**2)*100)/(512*512)
+                distanceToMid = (((player.y - closestMid)**2)+((player.x - closestX)**2))**(1/2)/10
+
+                #FITNESS FUNCTION
+                if(yDiff < 25 or (yDiff < lastYDiff and player.y < botObs.y and player.y > topObs.y + 320)):
+                    myGlobals.SCORE += 1
+                if (yDiff > lastYDiff and (player.y > botObs.y or player.y < topObs.y + 320)):
+                    myGlobals.SCORE -= 1
+                if(closestX - player.x <= 50 and (distanceToMid <= 5)):
+                    myGlobals.SCORE += 1
+                    bonus+=1
+
+                #current direction
+                lastYDiff = abs(player.y - closestMid)
+                lastDist2Mid = distanceToMid
+
+                #NEAT-python inputs
+                input = (yDiff, yDiffTop, yDiffBot, closestX)
+
+                #pygame.draw.line(PANEL, (57,255,20), (topObs.x,topObs.y+320), (0,topObs.y+320))
+                #pygame.draw.line(PANEL, (57,255,20), (botObs.x,botObs.y), (0,botObs.y))
+                # pygame.draw.line(PANEL, (0,0,0), (player.x+34,player.y+18), (player.x+closestX-26,closestMid))
+                # pygame.draw.line(PANEL, (0,0,0), (player.x+34,player.y+18), (player.x+closestX-26,topObs.y+320))
+                # pygame.draw.line(PANEL, (0,0,0), (player.x+34,player.y+18), (player.x+closestX-26,botObs.y))
+                # pygame.display.flip()
+
                 #fitness = time + SCORE - distanceToMid
-                fitness = myGlobals.SCORE - distanceToMid + (time/10.0)
+                fitness = myGlobals.SCORE
+
                 # Get Output
                 output = ffnet.activate(input)
                 # Jump if output is above threshold
@@ -114,18 +146,26 @@ class Game():
                     # Close Game With Escape Key
                     if(event.key == K_ESCAPE):
                         self.close()
+
             if(not paused):
                 PANEL.blit(BACKGROUND, (0, 0))
                 myfont = pygame.font.SysFont('Arial', 12)
-                closestMidText = myfont.render(
-                    "closestMid:"+str(closestMid), False, (0, 0, 0))
+                playerYText = myfont.render(
+                    "playerY:  "+str(player.y), False, (0, 0, 0))
+                distToMidText = myfont.render(
+                    "Distance2Mid:  "+str(distanceToMid), False, (0, 0, 0))
                 xMidText = myfont.render(
-                    "closestX:"+str(closestX), False, (0, 0, 0))
-                obsU1Text = myfont.render(
-                    "obsU1.x:"+str(obsU1.x), False, (0, 0, 0))
-                PANEL.blit(closestMidText, (20, 20))
-                PANEL.blit(xMidText, (20, 40))
-                PANEL.blit(obsU1Text, (20, 60))
+                    "closestX:  "+str(closestX), False, (0, 0, 0))
+                bonusText = myfont.render(
+                    "numBonuses:  "+str(bonus), False, (0, 0, 0))
+                scoreText = myfont.render(
+                    "FITNESS:  "+str(myGlobals.SCORE), False, (0, 0, 0))
+
+                PANEL.blit(playerYText, (20, 20))
+                PANEL.blit(distToMidText, (20, 40))
+                PANEL.blit(xMidText, (20, 60))
+                PANEL.blit(bonusText, (20, 80))
+                PANEL.blit(scoreText, (20, 100))
                 player.step()
                 myMid = self.getNewMid()
                 for obs in obsList:
