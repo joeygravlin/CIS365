@@ -101,7 +101,7 @@ class Game():
                 yDiffTop = abs(player.y - (topObs.y+320))
                 yDiffBot = abs(player.y - (botObs.y))
                 #distanceToMid = abs(player.y - closestMid)
-                distanceToMid = (((player.y - closestMid)**2)+((player.x - closestX)**2))**(1/2)/10
+                distanceToMid = ((((player.y - closestMid)**2)+((player.x - closestX)**2))**(1/2))/10
 
                 #FITNESS FUNCTION
                 if(yDiff < 25 or (yDiff < lastYDiff and player.y < botObs.y and player.y > topObs.y + 320)):
