@@ -1,6 +1,8 @@
 # Inspiration/Learning From:
 # https://github.com/llSourcell/neuroevolution-for-flappy-birds
 
+
+
 import pygame
 from pygame.locals import *
 import sys
@@ -19,9 +21,11 @@ class Game():
         # Set Mode (0 = Play, 1 = Train)
         self.mode = mode
 
-        FPS = 60
+        FPS = 800
         if(self.mode == 1):
             FPS = 800
+
+
         WIDTH = 288
         HEIGHT = 512
         running = True
@@ -127,6 +131,8 @@ class Game():
                 # pygame.display.flip()
 
                 #fitness = time + SCORE - distanceToMid
+
+                # ratio to be redetermined!
                 fitness = 5 * myGlobals.SCORE - 3 * distanceToMid
 
                 # Get Output
